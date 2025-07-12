@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Gênese do Caos v2: Como o Câncer Começa</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Exo+2:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* CSS - Estilo Scrollytelling e Interativo Aprimorado */
+
+        :root {
+            --bg-color: #0d0d1a;
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #e94560;
+            --warning-color: #fca311;
+            --text-color: #e0e0e0;
+            --text-muted: #a0a0c0;
+            --success-color: #00f59b;
+            --border-radius: 15px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Roboto Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Estrutura Principal */
+        .story-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+        
+        .story-section h2 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 3rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .story-section p.intro-text {
+            max-width: 800px;
+            text-align: center;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        /* Animações de Scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* --- NOVOS BOTÕES "SAIBA MAIS" --- */
+        .more-info-container { margin-top: 1.5rem; }
+        .info-card-btn { 
+            background: var(--secondary-color); color: var(--text-muted); 
+            border: 1px solid var(--text-muted); padding: 0.5rem 1rem; cursor: pointer; border-radius: 8px;
+            margin-right: 0.5rem; margin-bottom: 0.5rem; transition: all 0.3s ease;
+        }
+        .info-card-btn:hover { background: var(--accent-color); color: var(--bg-color); border-color: var(--accent-color); }
+        
+        /* Seção 1: Mutação */
+        #dna-mutation-box {
+            background-color: #000; color: var(--success-color); padding: 2rem;
+            border-radius: var(--border-radius); width: 100%; max-width: 900px;
+            border: 1px solid var(--secondary-color); font-size: 1.2rem;
+        }
+        #dna-sequence { white-space: pre-wrap; word-wrap: break-word; }
+        .mutation { color: var(--accent-color); background-color: rgba(233, 69, 96, 0.2); font-weight: 700; animation: glitch 1.5s infinite; }
+        .typing-cursor { display: inline-block; width: 10px; height: 1.2rem; background-color: var(--success-color); animation: blink 1s infinite; }
+
+        /* Seção 2: Analogia do Carro */
+        #car-analogy-container { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; width: 100%; }
+        #dashboard { flex: 1; min-width: 300px; max-width: 400px; aspect-ratio: 1/1; background-image: url('car_dashboard.png'); background-size: contain; background-repeat: no-repeat; background-position: center; position: relative; }
+        #rpm-needle { width: 50%; height: 4px; background-color: var(--accent-color); position: absolute; top: 50%; left: 0; transform-origin: right center; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #controls { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 1.5rem; }
+        .control-btn { padding: 1rem 1.5rem; font-size: 1.2rem; font-family: 'Exo 2', sans-serif; cursor: pointer; border-radius: var(--border-radius); border: 2px solid; transition: all 0.3s ease; display: flex; align-items: center; gap: 1rem; }
+        #accelerator-btn { background: rgba(0, 245, 155, 0.1); border-color: var(--success-color); color: var(--success-color); }
+        #brake-btn { background: rgba(252, 163, 17, 0.1); border-color: var(--warning-color); color: var(--warning-color); }
+        .control-btn.stuck, .control-btn.broken { background: var(--accent-color); color: var(--bg-color); border-color: var(--accent-color); cursor: not-allowed; animation: shake 0.5s; }
+        .control-btn:active:not(:disabled) { transform: scale(0.95); }
+
+        /* --- NOVOS FLASHCARDS --- */
+        .flashcard-section { margin-top: 3rem; width: 100%; text-align: center; }
+        .flashcard-deck { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 1rem; }
+        .flashcard { width: 280px; height: 180px; perspective: 1000px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; border-radius: var(--border-radius); }
+        .flashcard-front { background: var(--secondary-color); border: 2px solid var(--accent-color); }
+        .flashcard-back { background: var(--primary-color); transform: rotateY(180deg); font-size: 0.9rem; }
+        .flashcard-front h3 { font-family: 'Exo 2'; color: var(--accent-color); }
+        
+        /* Seção 3: Múltiplos Golpes */
+        #multi-hit-container { display: flex; justify-content: space-around; width: 100%; max-width: 1000px; flex-wrap: wrap; gap: 3rem; }
+        .scenario { background: var(--primary-color); padding: 2rem; border-radius: var(--border-radius); text-align: center; width: 100%; max-width: 400px; }
+        .scenario h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .health-bar { width: 100%; height: 30px; background: var(--secondary-color); border-radius: 50px; margin: 1.5rem 0; overflow: hidden; border: 2px solid var(--text-muted); }
+        .health-bar-fill { width: 0; height: 100%; background: var(--success-color); transition: width 0.5s ease, background-color 0.5s ease; border-radius: 50px; }
+        .hit-btn { background-color: var(--accent-color); color: var(--bg-color); border: none; padding: 0.8rem 2rem; border-radius: 50px; cursor: pointer; font-family: 'Exo 2', sans-serif; transition: all 0.3s ease; }
+        .hit-btn:hover:not(:disabled) { transform: scale(1.1); }
+        .status-text { min-height: 40px; color: var(--text-muted); }
+
+        /* --- NOVO QUIZ --- */
+        #quiz-container { max-width: 800px; margin: auto; width: 100%; }
+        .question { display: none; }
+        .question.active { display: block; animation: fadeIn 0.5s; }
+        .question h3 { margin-bottom: 2rem; font-size: 1.5rem; }
+        .answers { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .answer-btn { background: var(--primary-color); border: 2px solid var(--secondary-color); color: var(--text-color); padding: 1rem; border-radius: var(--border-radius); cursor: pointer; text-align: left; width: 100%; font-size: 1rem; transition: all 0.3s ease; }
+        .answer-btn:hover:not(:disabled) { background: var(--secondary-color); border-color: var(--accent-color); }
+        .answer-btn.correct { background: var(--success-color); color: var(--primary-color); border-color: var(--success-color); }
+        .answer-btn.wrong { background: var(--accent-color); color: var(--bg-color); border-color: var(--accent-color); }
+        .answer-btn:disabled { cursor: not-allowed; }
+        #quiz-feedback { margin-top: 1.5rem; text-align: center; font-size: 1.2rem; font-weight: 600; min-height: 30px;}
+        #quiz-results { text-align: center; display: none; }
+
+        /* Popups de Informação */
+        #popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 99; }
+        .info-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--primary-color); padding: 2rem; border-radius: var(--border-radius); box-shadow: 0 0 50px rgba(0,0,0,0.5); z-index: 100; width: 90%; max-width: 600px; border: 1px solid var(--accent-color); }
+        .info-popup h3 { color: var(--accent-color); margin-bottom: 1rem; }
+        
+        /* Animações e Utilitários */
+        .scroll-down { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: var(--text-muted); animation: bounce 2s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -15px); } 60% { transform: translate(-50%, -5px); } }
+        @keyframes glitch { 2%, 64% { transform: translate(2px, 0) skew(0deg); } 4%, 60% { transform: translate(-2px, 0) skew(0deg); } 62% { transform: translate(0, 0) skew(5deg); } }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .story-section h2 { font-size: 2.2rem; }
+            .story-section p.intro-text { font-size: 0.9rem; }
+            #dna-mutation-box { font-size: 1rem; }
+            .answers { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="story-section">
+        <h2 class="fade-in">A Gênese do Caos</h2>
+        <p class="intro-text fade-in">Se o Capítulo 1 descreveu a ordem, este explora como ela se desmorona. O início do câncer não é um evento súbito, mas um processo gradual de corrupção genética que transforma uma célula leal num rebelde anárquico.</p>
+        <div class="scroll-down">
+            <i class="fa-solid fa-chevron-down"></i> Role para explorar <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <section class="story-section" id="spark-section">
+        <div class="fade-in">
+            <h2>A Primeira Faísca</h2>
+            <p class="intro-text">Tudo começa com uma mutação: um erro de digitação no nosso livro de receitas genético. Sistemas de reparo corrigem a maioria, mas às vezes, um erro escapa e se torna permanente.</p>
+            <div id="dna-mutation-box"><code id="dna-sequence"></code></div>
+            <div class="more-info-container">
+                <button class="info-card-btn" data-target="mutation-causes">De onde vêm as mutações?</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="story-section" id="analogy-section">
+        <div class="fade-in">
+            <h2>O Acelerador e os Travões</h2>
+            <p class="intro-text">O crescimento celular é como um carro. Use os controles para entender como mutações em genes podem levar ao desastre.</p>
+            <div id="car-analogy-container">
+                <div id="dashboard"><div id="rpm-needle"></div></div>
+                <div id="controls">
+                    <button class="control-btn" id="accelerator-btn"><i class="fa-solid fa-gauge-high"></i> ACELERADOR</button>
+                    <button class="control-btn" id="brake-btn"><i class="fa-solid fa-hand-paper"></i> TRAVÕES</button>
+                    <div class="more-info-container" style="text-align:center;">
+                        <button class="info-card-btn" data-target="proto-oncogenes">O que são Proto-Oncogenes?</button>
+                        <button class="info-card-btn" data-target="tumor-suppressors">O que são Genes Supressores?</button>
+                    </div>
+                    <hr style="border-color: var(--secondary-color);">
+                    <p style="text-align:center;">Agora, vamos quebrar o sistema:</p>
+                    <button class="control-btn" id="mutate-accelerator-btn"><i class="fa-solid fa-bolt"></i> Prender Acelerador (Oncogene)</button>
+                    <button class="control-btn" id="mutate-brake-btn"><i class="fa-solid fa-circle-minus"></i> Avariar Travões</button>
+                </div>
+            </div>
+            
+            <div class="flashcard-section fade-in">
+                <h3 style="font-family: 'Exo 2';">Revise os conceitos-chave:</h3>
+                <div class="flashcard-deck">
+                    <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><h3>Proto-Oncogene</h3><p>(Clique para virar)</p></div><div class="flashcard-back"><p>O <strong>acelerador normal</strong>. Gene que promove o crescimento e a divisão celular de forma controlada. Exemplos: RAS, MYC.</p></div></div></div>
+                    <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><h3>Oncogene</h3><p>(Clique para virar)</p></div><div class="flashcard-back"><p>O <strong>acelerador preso</strong>. Um proto-oncogene mutado que está sempre ativo (ganho de função), causando proliferação descontrolada.</p></div></div></div>
+                    <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><h3>Gene Supressor de Tumor</h3><p>(Clique para virar)</p></div><div class="flashcard-back"><p>Os <strong>travões</strong>. Gene que abranda a divisão, repara DNA ou ordena a apoptose (morte celular). Exemplos: TP53, BRCA1/2.</p></div></div></div>
+                    <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><h3>Mutação "Perda de Função"</h3><p>(Clique para virar)</p></div><div class="flashcard-back"><p>Ocorre nos <strong>genes supressores</strong>. A mutação inativa o gene, removendo um sistema de segurança (os travões falham).</p></div></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="story-section" id="storm-section">
+        <div class="fade-in">
+            <h2>A Tempestade Perfeita</h2>
+            <p class="intro-text">O câncer raramente é causado por uma única mutação. É o acúmulo de vários "golpes" ao longo do tempo. Veja a diferença entre um câncer esporádico e um hereditário.</p>
+            <div id="multi-hit-container">
+                <div class="scenario" id="sporadic-scenario">
+                    <h3>Câncer Esporádico</h3>
+                    <p class="intro-text">Nasce com 2 cópias boas do gene. Precisa de 2 "golpes" aleatórios na mesma célula.</p>
+                    <div class="health-bar"><div class="health-bar-fill"></div></div>
+                    <p class="status-text">Célula Saudável</p>
+                    <button class="hit-btn">Aplicar Mutação Aleatória</button>
+                </div>
+                <div class="scenario" id="hereditary-scenario">
+                    <h3>Câncer Hereditário</h3>
+                    <p class="intro-text">Já nasce com 1 cópia defeituosa. Precisa de apenas 1 "golpe" aleatório.</p>
+                    <div class="health-bar"><div class="health-bar-fill"></div></div>
+                    <p class="status-text">1º Golpe Herdado</p>
+                    <button class="hit-btn">Aplicar Mutação Aleatória</button>
+                </div>
+            </div>
+            <div class="more-info-container">
+                <button class="info-card-btn" data-target="cancer-age">Por que o câncer é uma doença do envelhecimento?</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="story-section" id="quiz-section">
+        <div class="fade-in">
+            <h2>Teste Seus Conhecimentos</h2>
+            <p class="intro-text">Vamos ver o que você aprendeu sobre a origem do caos celular.</p>
+            <div id="quiz-container">
+                <div class="question active" data-question="0">
+                    <h3>Na analogia do carro, um ONCOGENE (acelerador preso) é resultado de uma mutação em qual tipo de gene?</h3>
+                    <div class="answers">
+                        <button class="answer-btn" data-correct="true">Proto-Oncogene</button>
+                        <button class="answer-btn" data-correct="false">Gene Supressor de Tumor</button>
+                        <button class="answer-btn" data-correct="false">Gene de Reparo</button>
+                        <button class="answer-btn" data-correct="false">Gene da Apoptose</button>
+                    </div>
+                </div>
+                <div class="question" data-question="1">
+                    <h3>Qual a função principal de um Gene Supressor de Tumor como o TP53?</h3>
+                    <div class="answers">
+                        <button class="answer-btn" data-correct="false">Acelerar o crescimento da célula.</button>
+                        <button class="answer-btn" data-correct="false">Copiar o DNA.</button>
+                        <button class="answer-btn" data-correct="true">Atuar como "travão", parando o ciclo celular ou induzindo a morte celular.</button>
+                        <button class="answer-btn" data-correct="false">Dar energia para a célula.</button>
+                    </div>
+                </div>
+                <div class="question" data-question="2">
+                    <h3>Porque o risco de câncer hereditário é maior e aparece mais cedo?</h3>
+                    <div class="answers">
+                        <button class="answer-btn" data-correct="false">Porque o sistema imune é mais fraco.</button>
+                        <button class="answer-btn" data-correct="true">Porque a pessoa já nasce com o "primeiro golpe" (uma cópia de gene mutada).</button>
+                        <button class="answer-btn" data-correct="false">Porque a pessoa se expõe a mais radiação.</button>
+                        <button class="answer-btn" data-correct="false">Porque os seus proto-oncogenes são mais fortes.</button>
+                    </div>
+                </div>
+                <div id="quiz-feedback"></div>
+            </div>
+            <div id="quiz-results">
+                <h2>Quiz Completo!</h2>
+                <p style="font-size:1.5rem;">Sua pontuação: <span id="score">0</span> de 3</p>
+                <p class="intro-text">Excelente! Revisar esses conceitos é fundamental para entender como a ciência moderna combate esta doença.</p>
+            </div>
+        </div>
+    </section>
+    
+    <div id="popup-overlay"></div>
+    <div class="info-popup" id="mutation-causes-popup">
+        <h3>De Onde Vêm as Mutações?</h3>
+        <p>As mutações, ou "erros de digitação" no DNA, podem ter duas origens principais:</p>
+        <p><strong>1. Erros Espontâneos:</strong> Durante a cópia do DNA (Fase S), a maquinaria celular pode cometer um erro. É um processo incrivelmente preciso, mas não perfeito. A maioria destes erros é corrigida por sistemas de "revisão", mas alguns escapam.</p>
+        <p><strong>2. Fatores Externos (Mutagénicos):</strong> Danos infligidos ao DNA por agentes externos, como a radiação UV do sol, produtos químicos presentes no fumo do tabaco ou certos vírus. Estes agentes podem quebrar ou alterar quimicamente o DNA.</p>
+    </div>
+    <div class="info-popup" id="proto-oncogenes-popup">
+        <h3>O Que São Proto-Oncogenes?</h3>
+        <p>São genes <strong>normais e essenciais</strong> que funcionam como o <strong>acelerador</strong> do carro. Eles dão à célula o sinal para crescer e dividir-se quando é necessário (por exemplo, para curar uma ferida). Exemplos famosos incluem os genes <strong>RAS</strong> e <strong>MYC</strong>. O problema surge quando uma mutação de "ganho de função" os transforma em oncogenes, deixando o acelerador permanentemente pressionado.</p>
+    </div>
+    <div class="info-popup" id="tumor-suppressors-popup">
+        <h3>O Que São Genes Supressores de Tumor?</h3>
+        <p>São os <strong>sistemas de segurança</strong> da célula, os <strong>travões</strong> do carro. A sua função é abrandar a divisão celular, reparar erros no DNA ou, se o dano for irreparável, ordenar à célula que cometa suicídio (apoptose). Uma mutação de "perda de função" nestes genes é como cortar os cabos dos travões, permitindo que a célula com erros continue a dividir-se. Exemplos cruciais são o <strong>TP53</strong> e os genes <strong>BRCA1/BRCA2</strong>.</p>
+    </div>
+    <div class="info-popup" id="cancer-age-popup">
+        <h3>Por que o câncer é uma doença do envelhecimento?</h3>
+        <p>O modelo de "múltiplos golpes" explica isso perfeitamente. O câncer é o resultado do acúmulo de várias mutações em genes críticos ao longo de muitos anos. Uma única mutação raramente é suficiente.</p>
+        <p>Quanto mais vivemos, mais ciclos de divisão celular as nossas células completam e mais tempo estamos expostos a fatores ambientais. Isso simplesmente aumenta a janela de oportunidade para que essa infeliz série de eventos mutacionais ocorra numa única linhagem celular. É um jogo de probabilidades, e o tempo aumenta as chances de "perder".</p>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Animação de Fade-in com Scroll ---
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.fade-in').forEach(fader => observer.observe(fader));
+
+        // --- Lógica da Seção 1: Mutação Genética ---
+        const dnaSequenceEl = document.getElementById('dna-sequence');
+        const originalSequence = "GATTACA_GATTACA_GATTACA_..._CORRETO...";
+        const mutatedSequence = 'GATTACA_GATT<span class="mutation">A</span>CA_GATTACA_..._ERRO_DETECTADO...';
+        
+        const sparkObserver = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                let i = 0;
+                dnaSequenceEl.innerHTML = "";
+                const interval = setInterval(() => {
+                    if (i < originalSequence.length) {
+                        dnaSequenceEl.innerHTML = originalSequence.substring(0, i + 1) + '<span class="typing-cursor"></span>';
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        setTimeout(() => { dnaSequenceEl.innerHTML = mutatedSequence; }, 1000);
+                    }
+                }, 50);
+                sparkObserver.unobserve(entries[0].target);
+            }
+        }, { threshold: 0.5 });
+        sparkObserver.observe(document.getElementById('spark-section'));
+
+        // --- Lógica da Seção 2: Analogia do Carro ---
+        const needle = document.getElementById('rpm-needle');
+        const acceleratorBtn = document.getElementById('accelerator-btn');
+        const brakeBtn = document.getElementById('brake-btn');
+        const mutateAcceleratorBtn = document.getElementById('mutate-accelerator-btn');
+        const mutateBrakeBtn = document.getElementById('mutate-brake-btn');
+        let rpm = 0;
+        let acceleratorStuck = false;
+        let brakesBroken = false;
+
+        function updateRPM() {
+            const angle = (rpm / 100) * 180 - 90;
+            needle.style.transform = `rotate(${angle}deg)`;
+        }
+        acceleratorBtn.addEventListener('mousedown', () => { if (!acceleratorStuck) rpm = Math.min(rpm + 20, 100); updateRPM(); });
+        setInterval(() => {
+            if (acceleratorStuck) rpm = Math.min(rpm + 5, 100);
+            else rpm = Math.max(rpm - 5, 0);
+            updateRPM();
+        }, 100);
+        brakeBtn.addEventListener('mousedown', () => {
+            if (!brakesBroken && !acceleratorStuck) rpm = Math.max(rpm - 30, 0);
+            if (!brakesBroken && acceleratorStuck) rpm = Math.max(rpm - 5, 50);
+            updateRPM();
+        });
+        mutateAcceleratorBtn.addEventListener('click', () => { acceleratorStuck = true; acceleratorBtn.classList.add('stuck'); acceleratorBtn.innerHTML = '<i class="fa-solid fa-gauge-high"></i> ACELERADOR PRESO!'; mutateAcceleratorBtn.disabled = true; });
+        mutateBrakeBtn.addEventListener('click', () => { brakesBroken = true; brakeBtn.classList.add('broken'); brakeBtn.innerHTML = '<i class="fa-solid fa-hand-paper"></i> TRAVÕES AVARIADOS!'; mutateBrakeBtn.disabled = true; });
+
+        // --- Lógica dos Flashcards ---
+        document.querySelectorAll('.flashcard').forEach(card => {
+            card.addEventListener('click', () => card.classList.toggle('flipped'));
+        });
+
+        // --- Lógica da Seção 3: Múltiplos Golpes ---
+        function setupScenario(id) {
+            const scenario = document.getElementById(id);
+            const fill = scenario.querySelector('.health-bar-fill');
+            const statusText = scenario.querySelector('.status-text');
+            const button = scenario.querySelector('.hit-btn');
+            let hits = id.includes('hereditary') ? 1 : 0;
+            function updateState() {
+                if (hits === 0) { fill.style.width = '0%'; fill.style.backgroundColor = 'var(--success-color)'; statusText.textContent = 'Célula Saudável'; } 
+                else if (hits === 1) { fill.style.width = '50%'; fill.style.backgroundColor = 'var(--warning-color)'; statusText.textContent = '1º Golpe: 1 cópia do gene mutada.'; } 
+                else { fill.style.width = '100%'; fill.style.backgroundColor = 'var(--accent-color)'; statusText.innerHTML = '<strong>2º Golpe: Câncer Desenvolvido!</strong>'; button.disabled = true; button.textContent = "Função Perdida"; }
+            }
+            button.addEventListener('click', () => { if(hits < 2) { hits++; updateState(); } });
+            updateState();
+        }
+        setupScenario('sporadic-scenario');
+        setupScenario('hereditary-scenario');
+
+        // --- Lógica dos Popups "Saiba Mais" ---
+        const overlay = document.getElementById('popup-overlay');
+        document.querySelectorAll('.info-card-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetPopupId = btn.dataset.target + '-popup';
+                document.getElementById(targetPopupId).style.display = 'block';
+                overlay.style.display = 'block';
+            });
+        });
+        overlay.addEventListener('click', () => {
+            document.querySelectorAll('.info-popup').forEach(p => p.style.display = 'none');
+            overlay.style.display = 'none';
+        });
+
+        // --- Lógica do Quiz ---
+        const quizContainer = document.getElementById('quiz-container');
+        const questions = quizContainer.querySelectorAll('.question');
+        const quizResults = document.getElementById('quiz-results');
+        const scoreDisplay = document.getElementById('score');
+        const feedbackDisplay = document.getElementById('quiz-feedback');
+        let currentQuestion = 0;
+        let score = 0;
+
+        quizContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('answer-btn') && !e.target.disabled) {
+                const btn = e.target;
+                const parentQuestion = btn.closest('.question');
+                const isCorrect = btn.dataset.correct === 'true';
+                parentQuestion.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+                if (isCorrect) { btn.classList.add('correct'); score++; feedbackDisplay.textContent = "Correto!"; feedbackDisplay.style.color = 'var(--success-color)'; } 
+                else { btn.classList.add('wrong'); parentQuestion.querySelector('[data-correct="true"]').classList.add('correct'); feedbackDisplay.textContent = "Incorreto."; feedbackDisplay.style.color = 'var(--accent-color)'; }
+                setTimeout(() => {
+                    feedbackDisplay.textContent = "";
+                    questions[currentQuestion].classList.remove('active');
+                    currentQuestion++;
+                    if (currentQuestion < questions.length) {
+                        questions[currentQuestion].classList.add('active');
+                    } else {
+                        quizContainer.style.display = 'none';
+                        scoreDisplay.textContent = score;
+                        quizResults.style.display = 'block';
+                    }
+                }, 2000);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
