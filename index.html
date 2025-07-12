@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Estudo sobre Câncer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#FF6B6B',
+                        accent: '#4ECDC4',
+                        success: '#45B7D1'
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'float': 'float 6s ease-in-out infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes bounceGentle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #2D1B69 0%, #11998E 100%);
+        }
+        
+        .chapter-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .dark .chapter-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .iframe-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+        }
+        
+        .dark .iframe-container {
+            background: rgba(24, 24, 24, 0.95);
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg transition-all duration-500">
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20"></div>
+        <div class="relative container mx-auto px-4 py-16">
+            <div class="text-center animate-fade-in">
+                <!-- Imagem do logo/banner principal -->
+                <div class="mb-8 animate-float">
+                    <img src="cancer-research-hero.jpg" alt="Imagem heroica representando pesquisa científica sobre câncer com microscópio, células e DNA" class="w-64 h-64 mx-auto rounded-full shadow-2xl object-cover border-4 border-white/30">
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 animate-slide-up">
+                    Estudo sobre o Câncer
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 mb-4 animate-slide-up" style="animation-delay: 0.2s;">
+                    Das Mutações à Cura
+                </p>
+                <div class="w-24 h-1 bg-accent mx-auto mb-8 animate-slide-up" style="animation-delay: 0.4s;"></div>
+            </div>
+        </div>
+        
+        <!-- Elementos decorativos flutuantes -->
+        <div class="absolute top-20 left-10 w-20 h-20 bg-accent/20 rounded-full animate-bounce-gentle"></div>
+        <div class="absolute bottom-20 right-10 w-16 h-16 bg-secondary/20 rounded-full animate-bounce-gentle" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/4 w-12 h-12 bg-primary/20 rounded-full animate-pulse-slow"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Introduction Section -->
+        <section class="mb-16 animate-slide-up">
+            <div class="glass-effect rounded-3xl p-8 md:p-12 text-white">
+                <div class="flex items-center mb-8">
+                    <img src="molecular-oncologist.jpg" alt="Ilustração de um oncologista molecular em laboratório analisando dados genéticos" class="w-16 h-16 rounded-full mr-4 border-2 border-accent">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Introdução: Desvendando o Enigma do Câncer</h2>
+                        <p class="text-white/80">Uma jornada de conhecimento e esperança</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-6 text-lg leading-relaxed">
+                    <p>
+                        Seja bem-vindo a uma jornada de conhecimento. Como oncologista molecular e pesquisador, o meu trabalho diário consiste em decifrar os segredos de uma das doenças mais temidas e complexas da humanidade. Este estudo não é apenas uma explicação sobre o câncer, mas a história de uma extraordinária aventura científica, marcada por descobertas, progressos e, acima de tudo, esperança. O objetivo é transformar o medo, que muitas vezes nasce do desconhecido, em compreensão. Pois o conhecimento é a nossa ferramenta mais poderosa.
+                    </p>
+                    
+                    <div class="flex items-start">
+                        <img src="cell-society.jpg" alt="Representação artística de células como uma sociedade cooperativa, mostrando células saudáveis trabalhando em harmonia" class="w-32 h-32 rounded-lg mr-6 object-cover border-2 border-white/30">
+                        <div>
+                            <p>
+                                Para compreender o câncer, é útil pensar no nosso corpo como uma sociedade vasta e cooperativa, composta por trilhões de cidadãos individuais: as nossas células. Numa sociedade saudável, cada cidadão-célula segue um conjunto de regras estritas, um contrato social que garante a ordem e o bem-estar do todo. As células nascem, trabalham, dividem-se de forma controlada e, quando o seu tempo chega ou se tornam danificadas, morrem ordeiramente para o bem comum.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="mr-6">
+                            <p>
+                                O câncer, na sua essência, é uma rebelião dentro desta sociedade. É o que acontece quando um grupo de células renega este contrato social. Elas começam a ignorar as regras, a multiplicar-se sem controlo e a perseguir o seu próprio crescimento egoísta, em detrimento de todo o organismo.
+                            </p>
+                        </div>
+                        <img src="cancer-rebellion.jpg" alt="Ilustração conceptual de células cancerígenas rebeldes rompendo a ordem celular normal" class="w-32 h-32 rounded-lg object-cover border-2 border-white/30">
+                    </div>
+                    
+                    <p>
+                        Este documento foi estruturado para o guiar, passo a passo, através desta complexa narrativa. Começaremos com os fundamentos da vida, os blocos de construção que nos compõem, no Capítulo 1, para entender como uma célula normal funciona. A partir daí, no Capítulo 2, investigaremos como esta ordem se pode quebrar, explorando as mutações genéticas que dão início à rebelião. No Capítulo 3, veremos como esta rebelião se manifesta na forma de tumores e como a doença se espalha. O Capítulo 4 abordará os fatores de risco que podem aumentar a probabilidade de esta rebelião começar. De seguida, os Capítulos 5 e 6 detalharão como a medicina moderna diagnostica o inimigo e o arsenal de tratamentos que utilizamos para o combater, desde as terapias convencionais às revolucionárias estratégias de precisão. Por fim, no Capítulo 7, olharemos para o horizonte da pesquisa, discutindo o futuro do tratamento oncológico e o que realmente significam os conceitos de "cura" e "esperança". Construiremos este quadro complexo, uma peça compreensível de cada vez.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapters Navigation -->
+        <section class="mb-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-12 animate-slide-up">Capítulos do Estudo</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Capítulo 1 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index1.html', 1)" style="animation-delay: 0.1s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-dna text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 1</h3>
+                        <p class="text-white/80 text-sm">A Planta da Vida: A Célula e o seu Manual de Instruções</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 2 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index2.html', 2)" style="animation-delay: 0.2s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-exclamation-triangle text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 2</h3>
+                        <p class="text-white/80 text-sm">A Gênese do Caos: Como o Câncer Começa</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 3 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index3.html', 3)" style="animation-delay: 0.3s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-virus text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 3</h3>
+                        <p class="text-white/80 text-sm">O Inimigo Manifesta-se: Tumores e a Disseminação da Doença</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 4 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index4.html', 4)" style="animation-delay: 0.4s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-chart-line text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 4</h3>
+                        <p class="text-white/80 text-sm">Fatores de Risco: Navegando na Paisagem da Causa</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 5 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index5.html', 5)" style="animation-delay: 0.5s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-search-plus text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 5</h3>
+                        <p class="text-white/80 text-sm">O Diagnóstico: Identificando e Mapeando a Doença</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 6 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index6.html', 6)" style="animation-delay: 0.6s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 6</h3>
+                        <p class="text-white/80 text-sm">O Arsenal Terapêutico: Estratégias para Combater o Câncer</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 7 -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index7.html', 7)" style="animation-delay: 0.7s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-lightbulb text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Capítulo 7</h3>
+                        <p class="text-white/80 text-sm">Horizontes e Esperança: O Futuro da Pesquisa e o Significado da Cura</p>
+                    </div>
+                </div>
+
+                <!-- Conclusão -->
+                <div class="chapter-card glass-effect rounded-2xl p-6 cursor-pointer animate-slide-up" onclick="loadChapter('index8.html', 8)" style="animation-delay: 0.8s;">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-heart text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Conclusão</h3>
+                        <p class="text-white/80 text-sm">Da Incerteza ao Conhecimento, da Doença à Esperança</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Iframe Container -->
+        <section id="iframe-section" class="hidden animate-slide-up">
+            <div class="iframe-container rounded-3xl p-6 shadow-2xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 id="chapter-title" class="text-2xl font-bold text-gray-800 dark:text-white"></h3>
+                    <button onclick="closeChapter()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors duration-300">
+                        <i class="fas fa-times mr-2"></i>Fechar
+                    </button>
+                </div>
+                <iframe id="chapter-iframe" src="" class="w-full h-96 md:h-[600px] rounded-2xl border-0 shadow-inner"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/20 backdrop-blur-sm text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center md:text-left">
+                    <img src="medical-research-footer.jpg" alt="Ícone representando pesquisa médica e inovação científica" class="w-16 h-16 mx-auto md:mx-0 mb-4 rounded-full">
+                    <h4 class="text-xl font-bold mb-2">Pesquisa Oncológica</h4>
+                    <p class="text-white/80">Transformando conhecimento em esperança através da ciência.</p>
+                </div>
+                
+                <div class="text-center">
+                    <h4 class="text-xl font-bold mb-4">Conecte-se</h4>
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-white/80 hover:text-accent transition-colors duration-300">
+                            <i class="fab fa-twitter text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-white/80 hover:text-accent transition-colors duration-300">
+                            <i class="fab fa-linkedin text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-white/80 hover:text-accent transition-colors duration-300">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <img src="dna-helix-footer.jpg" alt="Ilustração de hélice de DNA simbolizando genética e medicina personalizada" class="w-16 h-16 mx-auto md:ml-auto mb-4 rounded-full">
+                    <h4 class="text-xl font-bold mb-2">Medicina do Futuro</h4>
+                    <p class="text-white/80">Construindo um amanhã sem câncer.</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 mt-8 pt-8 text-center">
+                <p class="text-white/80">&copy; 2025 Estudo sobre o Câncer. Desenvolvido por Rodrigo Niskier, Gemini e POE.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode detection and handling
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Chapter navigation functionality
+        function loadChapter(filename, chapterNum) {
+            const iframeSection = document.getElementById('iframe-section');
+            const iframe = document.getElementById('chapter-iframe');
+            const title = document.getElementById('chapter-title');
+            
+            // Chapter titles array
+            const chapterTitles = [
+                'A Planta da Vida: A Célula e o seu Manual de Instruções',
+                'A Gênese do Caos: Como o Câncer Começa',
+                'O Inimigo Manifesta-se: Tumores e a Disseminação da Doença',
+                'Fatores de Risco: Navegando na Paisagem da Causa',
+                'O Diagnóstico: Identificando e Mapeando a Doença',
+                'O Arsenal Terapêutico: Estratégias para Combater o Câncer',
+                'Horizontes e Esperança: O Futuro da Pesquisa e o Significado da Cura',
+                'Da Incerteza ao Conhecimento, da Doença à Esperança'
+            ];
+            
+            // Set chapter title
+            if (chapterNum === 8) {
+                title.textContent = 'Conclusão: ' + chapterTitles[chapterNum - 1];
+            } else {
+                title.textContent = `Capítulo ${chapterNum}: ` + chapterTitles[chapterNum - 1];
+            }
+            
+            // Load iframe
+            iframe.src = filename;
+            
+            // Show iframe section with animation
+            iframeSection.classList.remove('hidden');
+            
+            // Smooth scroll to iframe
+            setTimeout(() => {
+                iframeSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+            
+            // Add loading feedback
+            iframe.addEventListener('load', function() {
+                console.log(`Capítulo ${chapterNum} carregado com sucesso`);
+            });
+        }
+
+        function closeChapter() {
+            const iframeSection = document.getElementById('iframe-section');
+            const iframe = document.getElementById('chapter-iframe');
+            
+            // Hide iframe section
+            iframeSection.classList.add('hidden');
+            
+            // Clear iframe source
+            iframe.src = '';
+            
+            // Scroll back to top
+            window.scrollTo({ 
+                top: 0, 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-slide-up');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observer.observe(el);
+            });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeChapter();
+            }
+        });
+
+        // Add click sound effect (optional)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.chapter-card')) {
+                // You can add sound effects here if needed
+                console.log('Chapter card clicked');
+            }
+        });
+    </script>
+</body>
+</html>
