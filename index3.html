@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Inimigo Manifesta-se: Tumores e a Disseminação</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* CSS - Layout de Mapa Mental Interativo */
+
+        :root {
+            --bg-color: #f0f4f8;
+            --primary-color: #ffffff;
+            --secondary-color: #e4e9f0;
+            --text-color: #1c2a38;
+            --text-muted: #5a6b7c;
+            --accent-benign: #3498db;
+            --accent-malignant: #e74c3c;
+            --accent-process: #9b59b6;
+            --border-radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* Container Principal */
+        #mindmap-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        h1 { color: var(--text-color); margin-bottom: 0.5rem; }
+        #intro-text { color: var(--text-muted); margin-bottom: 2rem; }
+
+        /* Estrutura do Mapa Mental */
+        .mindmap-level { display: flex; justify-content: center; align-items: center; gap: 2rem; margin-top: 2rem; position: relative; }
+        .map-node {
+            background: var(--primary-color);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: pop-in 0.5s ease-out forwards;
+        }
+        .map-node:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .map-node.benign { border-color: var(--accent-benign); }
+        .map-node.malignant { border-color: var(--accent-malignant); }
+        .map-node.process { border-color: var(--accent-process); }
+        .map-node h3 { font-size: 1.2rem; }
+        
+        /* Modal de Conteúdo */
+        #content-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(28, 42, 56, 0.7); z-index: 100; justify-content: center; align-items: center; }
+        #content-modal.visible { display: flex; }
+        .modal-content { background: var(--primary-color); width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; padding: 2.5rem; border-radius: var(--border-radius); position: relative; animation: slide-up 0.4s ease-out; }
+        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
+        .modal-content h2 { margin-bottom: 1rem; }
+        .modal-content img { max-width: 150px; float: right; margin-left: 1rem; border-radius: 8px; border: 1px solid var(--secondary-color); }
+
+        /* Tabela Comparativa Interativa */
+        .comparison-table { margin-top: 1.5rem; }
+        .comparison-row { display: flex; margin-bottom: 1rem; border: 1px solid var(--secondary-color); border-radius: var(--border-radius); overflow: hidden; }
+        .comparison-feature { flex: 1; padding: 1rem; background: var(--secondary-color); font-weight: 700; text-align: center; }
+        .comparison-option { flex: 1; padding: 1rem; cursor: pointer; text-align: center; transition: background-color 0.3s; }
+        .comparison-option.benign { background-color: rgba(52, 152, 219, 0.1); }
+        .comparison-option.benign:hover { background-color: rgba(52, 152, 219, 0.3); }
+        .comparison-option.malignant { background-color: rgba(231, 76, 60, 0.1); }
+        .comparison-option.malignant:hover { background-color: rgba(231, 76, 60, 0.3); }
+
+        /* Fluxograma da Metástase */
+        #metastasis-cascade { display: none; margin-top: 2rem; }
+        .cascade-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; align-items: center; }
+        .cascade-grid .map-node { width: 100%; }
+        /* AQUI USAMOS SVG INLINE NO LUGAR DO FONT AWESOME */
+        .cascade-arrow { width: 24px; height: 24px; stroke: var(--text-muted); }
+
+        /* Seção Final (Quiz e Conclusão) */
+        #final-section { display: none; margin-top: 3rem; animation: pop-in 0.5s; }
+        #final-section button { background: var(--accent-process); color: white; padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1.2rem; cursor: pointer; transition: all 0.3s ease; }
+        #final-section button:hover { transform: scale(1.05); }
+
+        /* Estilos do Quiz (Reutilizados e Adaptados) */
+        #quiz-container { margin-top: 2rem; max-width: 800px; text-align: left; }
+        .question h3 { margin-bottom: 1rem; }
+        .answers button { width: 100%; padding: 1rem; margin-bottom: 0.5rem; font-size: 1rem; cursor: pointer; border-radius: var(--border-radius); border: 2px solid var(--secondary-color); background: var(--primary-color); transition: all 0.2s; }
+        .answers button:hover:not(:disabled) { border-color: var(--accent-process); }
+        .answers button.correct { background: #2ecc71; color: white; border-color: #2ecc71; }
+        .answers button.wrong { background: var(--accent-malignant); color: white; border-color: var(--accent-malignant); }
+
+        /* Animações */
+        @keyframes pop-in { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slide-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .mindmap-level, .cascade-grid { flex-direction: column; }
+            .cascade-arrow { transform: rotate(90deg); margin: 1rem 0; }
+            .modal-content { padding: 1.5rem; }
+            .comparison-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="mindmap-container">
+        <h1>O Inimigo Manifesta-se</h1>
+        <p id="intro-text">Quando a rebelião celular ganha força, ela se manifesta fisicamente. O resultado é um tumor, uma massa de células que desrespeita as leis do crescimento. Explore o diagrama abaixo para entender as suas formas.</p>
+        <div class="mindmap-level" id="level-1">
+            <div class="map-node" data-content="tumor-intro">
+                <h3><i class="fa-solid fa-circle-nodes"></i> Tumor</h3><p>Uma Assembleia Ilegal</p>
+            </div>
+        </div>
+
+        <div class="mindmap-level" id="level-2" style="display: none;">
+            <div class="map-node benign" data-content="tumor-benign"><h3><i class="fa-solid fa-shield-alt"></i> Tumor Benigno</h3></div>
+            <div class="map-node" data-content="comparison-table"><h3><i class="fa-solid fa-balance-scale"></i> Comparar</h3></div>
+            <div class="map-node malignant" data-content="tumor-malignant"><h3><i class="fa-solid fa-skull-crossbones"></i> Tumor Maligno (Câncer)</h3></div>
+        </div>
+        
+        <div id="metastasis-cascade">
+            <h2 style="color: var(--accent-process); margin: 2rem 0;">Metástase: A Viagem Sombria</h2>
+            <div class="cascade-grid">
+                <div class="map-node process" data-content="meta-invasion"><h3>1. Invasão</h3></div>
+                <svg class="cascade-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M12 5L19 12L12 19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="map-node process" data-content="meta-angiogenesis"><h3>2. Angiogênese</h3></div>
+                <svg class="cascade-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M12 5L19 12L12 19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="map-node process" data-content="meta-intravasation"><h3>3. Intravasão</h3></div>
+                <svg class="cascade-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M12 5L19 12L12 19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="map-node process" data-content="meta-survival"><h3>4. Sobrevivência</h3></div>
+                <svg class="cascade-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M12 5L19 12L12 19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="map-node process" data-content="meta-extravasation"><h3>5. Extravasão</h3></div>
+                <svg class="cascade-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12H19M12 5L19 12L12 19" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="map-node process" data-content="meta-colonization"><h3>6. Colonização</h3></div>
+            </div>
+        </div>
+
+        <div id="final-section"><button id="show-quiz-btn"><i class="fa-solid fa-brain"></i> Testar Conhecimento</button></div>
+    </div>
+
+    <div id="content-modal"><div class="modal-content"><button class="modal-close-btn">&times;</button><div id="modal-body"></div></div></div>
+    
+    <div style="display: none;" id="content-templates">
+        <div data-template="tumor-intro">
+            <h2>Tumor: Uma Assembleia Ilegal de Células</h2>
+            <p>Um tumor, ou neoplasia, é simplesmente uma massa anormal de tecido que se forma quando as células crescem e se dividem mais do que deveriam, ou não morrem quando deveriam. Contudo, é crucial entender que nem todos os tumores são câncer. A distinção fundamental reside no seu comportamento.</p>
+            <p style="font-weight: bold; color: var(--text-color);">Clique fora desta caixa e escolha um caminho: Benigno ou Maligno.</p>
+        </div>
+        
+        <div data-template="tumor-benign">
+            <h2 style="color: var(--accent-benign);">Tumor Benigno: Multidão Contida</h2>
+            <img src="https://images.unsplash.com/photo-1628359355622-1f48866b86d2?q=80&w=800&auto=format&fit=crop" alt="Ilustração de um tumor benigno, encapsulado e bem definido">
+            <p>Podemos pensar num tumor benigno como uma multidão bem-comportada, embora excessivamente grande. As suas células:</p>
+            <ul><li>Crescem lentamente.</li><li>São bem-diferenciadas (parecidas com as células normais).</li><li>Estão contidas numa <strong>cápsula fibrosa</strong>, que as impede de invadir tecidos vizinhos.</li><li><strong>NÃO se espalham</strong> (não criam metástases).</li></ul>
+            <p>Embora não seja câncer, pode causar problemas se comprimir órgãos vitais, nervos ou vasos sanguíneos.</p>
+        </div>
+        
+        <div data-template="tumor-malignant">
+            <h2 style="color: var(--accent-malignant);">Tumor Maligno: Multidão Anárquica</h2>
+            <img src="https://images.unsplash.com/photo-1584033234407-792a7f5a77c7?q=80&w=800&auto=format&fit=crop" alt="Ilustração de um tumor maligno, com bordas irregulares e invasivas">
+            <p>Em contraste, um tumor maligno é uma multidão violenta. As suas células:</p>
+            <ul><li>Crescem de forma rápida e descontrolada.</li><li>São pouco diferenciadas (aparência anormal).</li><li>Não possuem uma cápsula que as contenha.</li></ul>
+            <p>As suas características definidoras, que por definição significam <strong>CÂNCER</strong>, são:</p>
+            <ul><li><strong>Invasão:</strong> a capacidade de se infiltrarem e destruírem os tecidos circundantes.</li><li><strong>Metástase:</strong> a capacidade de se espalharem para locais distantes do corpo.</li></ul>
+        </div>
+        
+        <div data-template="comparison-table"><h2>Quadro Comparativo Interativo</h2><p>Clique em "Benigno" ou "Maligno" para revelar a característica correspondente.</p><div class="comparison-table"></div></div>
+        <div data-template="meta-invasion"><h2 style="color: var(--accent-process);">1. Invasão Local: A Fuga</h2><p>O primeiro passo é a fuga. As células cancerígenas têm de romper a membrana basal, uma barreira natural que as confina, e invadir o tecido circundante. Para isso, elas ativam genes que lhes conferem motilidade e produzem enzimas que digerem as barreiras físicas.</p></div>
+        <div data-template="meta-angiogenesis"><h2 style="color: var(--accent-process);">2. Angiogênese: Construindo Autoestradas</h2><p>Um tumor não consegue crescer muito sem seu próprio fornecimento de sangue. Ele libera sinais químicos que enganam o corpo, levando-o a construir novos vasos sanguíneos para alimentá-lo. Este processo, chamado angiogênese, não só nutre o tumor, como também lhe fornece as "autoestradas" para a sua fuga.</p></div>
+        <div data-template="meta-intravasation"><h2 style="color: var(--accent-process);">3. Intravasão: Entrando no Tráfego</h2><p>As células invasoras têm agora de penetrar nas paredes destes novos e frágeis vasos sanguíneos ou linfáticos para entrarem na corrente circulatória. É o embarque para a viagem sombria.</p></div>
+        <div data-template="meta-survival"><h2 style="color: var(--accent-process);">4. Sobrevivência na Circulação: Território Hostil</h2><p>A corrente sanguínea é um ambiente extremamente hostil. As células são vulneráveis ao fluxo sanguíneo e aos ataques do sistema imunitário. Para sobreviverem, muitas vezes viajam em aglomerados ou disfarçam-se, agregando-se a plaquetas.</p></div>
+        <div data-template="meta-extravasation"><h2 style="color: var(--accent-process);">5. Extravasão: O Desembarque</h2><p>Após viajarem pelo corpo, as células têm de parar num novo órgão (pulmões, fígado, cérebro, ossos). Aí, têm de se aderir à parede do vaso e forçar a sua saída para o tecido do novo órgão.</p></div>
+        <div data-template="meta-colonization"><h2 style="color: var(--accent-process);">6. Colonização: O Desafio Final</h2><p>Este é, talvez, o passo mais difícil. A célula é uma "imigrante" num "solo" estrangeiro. Ela tem de se adaptar, sobreviver, proliferar e induzir a sua própria angiogênese para formar uma nova colônia. Muitas falham ou entram em dormência por anos.</p><p style="font-weight:700; color: var(--text-color);">As poucas que conseguem são "super-células" altamente evoluídas, o que torna o câncer metastático muito mais difícil de tratar.</p></div>
+        <div data-template="quiz"><h2>Quiz Final</h2><div id="quiz-container"></div></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('content-modal');
+        const modalBody = document.getElementById('modal-body');
+        const modalCloseBtn = document.querySelector('.modal-close-btn');
+        const contentTemplates = document.getElementById('content-templates');
+        const comparisonData = [ { feature: 'Taxa de Crescimento', benign: 'Lenta', malignant: 'Rápida, descontrolada' }, { feature: 'Aparência Celular', benign: 'Bem-diferenciada (normal)', malignant: 'Pouco diferenciada (anormal)' }, { feature: 'Limites', benign: 'Encapsulado, bem definido', malignant: 'Não encapsulado, irregular' }, { feature: 'Modo de Crescimento', benign: 'Expansão (empurra)', malignant: 'Invasão (infiltra e destrói)' }, { feature: 'Metástase', benign: 'Ausente', malignant: 'Presente' } ];
+        const quizData = [ { question: "Qual é a característica DEFINIDORA de um tumor maligno (câncer) que o diferencia de um tumor benigno?", answers: ["Crescimento rápido", "Aparência anormal", "Metástase (capacidade de se espalhar)", "Não ser encapsulado"], correct: 2 }, { question: "O que é Angiogênese?", answers: ["A morte programada da célula", "A formação de novos vasos sanguíneos para alimentar o tumor", "A invasão de tecidos vizinhos", "A sobrevivência na corrente sanguínea"], correct: 1 }, { question: "Qual é considerado o passo mais difícil na cascata metastática?", answers: ["Invasão local", "Entrar nos vasos sanguíneos", "Sobreviver na circulação", "Colonização (crescer num novo órgão)"], correct: 3 } ];
+        function showModal(contentKey) {
+            const template = contentTemplates.querySelector(`[data-template="${contentKey}"]`);
+            if (!template) return;
+            modalBody.innerHTML = template.innerHTML;
+            if (contentKey === 'comparison-table') buildInteractiveTable();
+            else if (contentKey === 'quiz') buildQuiz();
+            modal.classList.add('visible');
+        }
+        document.querySelectorAll('.map-node').forEach(node => {
+            node.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const contentKey = node.dataset.content;
+                showModal(contentKey);
+                if (contentKey === 'tumor-intro') document.getElementById('level-2').style.display = 'flex';
+                else if (contentKey === 'tumor-malignant') { document.getElementById('metastasis-cascade').style.display = 'block'; document.getElementById('final-section').style.display = 'block'; }
+            });
+        });
+        modalCloseBtn.addEventListener('click', () => modal.classList.remove('visible'));
+        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('visible'); });
+        document.getElementById('show-quiz-btn').addEventListener('click', () => showModal('quiz'));
+        function buildInteractiveTable() {
+            const container = modalBody.querySelector('.comparison-table');
+            container.innerHTML = '';
+            comparisonData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'comparison-row';
+                row.innerHTML = `<div class="comparison-feature">${item.feature}</div><div class="comparison-option benign" data-info="${item.benign}">Benigno</div><div class="comparison-option malignant" data-info="${item.malignant}">Maligno</div>`;
+                container.appendChild(row);
+            });
+            container.querySelectorAll('.comparison-option').forEach(option => {
+                option.addEventListener('click', () => { option.textContent = option.dataset.info; });
+            });
+        }
+        function buildQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+            let quizHTML = '';
+            quizData.forEach((q, index) => {
+                quizHTML += `<div class="question" data-qindex="${index}"><h3>${index + 1}. ${q.question}</h3><div class="answers">${q.answers.map((ans, ansIndex) => `<button data-aindex="${ansIndex}">${ans}</button>`).join('')}</div></div>`;
+            });
+            container.innerHTML = quizHTML;
+            container.querySelectorAll('.answers button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const questionDiv = btn.closest('.question');
+                    const qIndex = parseInt(questionDiv.dataset.qindex);
+                    const aIndex = parseInt(btn.dataset.aindex);
+                    if (aIndex === quizData[qIndex].correct) btn.classList.add('correct');
+                    else { btn.classList.add('wrong'); questionDiv.querySelector(`button[data-aindex="${quizData[qIndex].correct}"]`).classList.add('correct'); }
+                    questionDiv.querySelectorAll('button').forEach(b => b.disabled = true);
+                });
+            });
+        }
+    });
+    </script>
+</body>
+</html>
