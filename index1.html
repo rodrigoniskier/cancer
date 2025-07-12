@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Planta da Vida: A Célula e seu Manual</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monofett&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* CSS - Estilização Avançada e Responsiva */
+
+        :root {
+            --bg-color: #12121c;
+            --primary-color: #1f1f38;
+            --secondary-color: #2c2c6c;
+            --accent-color: #4db5ff;
+            --text-color: #ffffff;
+            --text-muted: #c0c0e0;
+            --success-color: #00f59b;
+            --error-color: #ff5b5b;
+            --border-radius: 20px;
+            --card-padding: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: url('background_dna_helix.png'); /* Imagem de fundo sutil */
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(18, 18, 28, 0.95);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header h1 {
+            font-family: 'Monofett', 'Poppins', sans-serif;
+            font-size: 3rem;
+            color: var(--accent-color);
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+        
+        header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Navegação Principal */
+        #main-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: var(--primary-color);
+            border: 2px solid var(--secondary-color);
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(77, 181, 255, 0.2);
+        }
+
+        /* Seções de Conteúdo */
+        .content-section {
+            display: none;
+            background: rgba(31, 31, 56, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: var(--card-padding);
+            border: 1px solid var(--secondary-color);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2.2rem;
+        }
+        
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* 1. Seção Célula Interativa */
+        #cell-interactive-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            aspect-ratio: 1/1;
+        }
+        #cell-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+        .hotspot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid var(--text-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+        .hotspot i { color: var(--primary-color); }
+        #hotspot-nucleus { top: 45%; left: 45%; }
+        #hotspot-mitochondria { top: 25%; left: 65%; }
+        #hotspot-ribosomes { top: 70%; left: 30%; }
+        
+        #cell-info-box {
+            background: var(--secondary-color);
+            padding: var(--card-padding);
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            min-height: 150px;
+            border: 2px dashed var(--accent-color);
+        }
+
+        /* 2. Seção DNA (Flashcards) */
+        .flashcard-deck {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .flashcard {
+            background: var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--card-padding);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--secondary-color);
+        }
+        .flashcard:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(77, 181, 255, 0.1);
+        }
+        .flashcard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .flashcard-header h3 { font-size: 1.5rem; }
+        .flashcard-header i { font-size: 1.5rem; transition: transform 0.3s ease; }
+        .flashcard-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding-top 0.5s ease;
+            padding-top: 0;
+            border-left: 3px solid var(--accent-color);
+            margin-left: 10px;
+            padding-left: 1.5rem;
+        }
+        .flashcard.open .flashcard-content {
+            max-height: 1000px; /* valor alto para permitir expansão */
+            padding-top: 1.5rem;
+        }
+        .flashcard.open i { transform: rotate(180deg); }
+        .flashcard-image {
+            width: 150px;
+            float: right;
+            margin-left: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+        }
+
+        /* 3. Seção Ciclo Celular (Wizard) */
+        #cell-cycle-wizard { text-align: center; }
+        .cycle-step { display: none; }
+        .cycle-step.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        .cycle-step h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .cycle-step img {
+            max-width: 250px;
+            margin: 1rem auto;
+            display: block;
+            border-radius: var(--border-radius);
+            background: var(--secondary-color);
+            padding: 10px;
+        }
+        .cycle-controls button {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            border: none;
+            margin: 1.5rem 0.5rem 0;
+        }
+        .cycle-controls button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(77, 181, 255, 0.3);
+        }
+        .special-event-card {
+            background: var(--primary-color);
+            border: 2px solid var(--success-color);
+            padding: var(--card-padding);
+            margin: 1.5rem 0;
+            border-radius: var(--border-radius);
+            display: none; /* Inicia escondido */
+        }
+        .special-event-card.apoptosis { border-color: var(--error-color); }
+        .special-event-card h4 {
+            font-size: 1.3rem;
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+        }
+        .special-event-card.apoptosis h4 { color: var(--error-color); }
+        
+        /* 4. Seção Quiz */
+        #quiz-container { max-width: 800px; margin: auto; }
+        .question { display: none; }
+        .question.active { display: block; animation: fadeIn 0.5s; }
+        .question h3 { margin-bottom: 2rem; }
+        .answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .answer-btn {
+            background: var(--primary-color);
+            border: 2px solid var(--secondary-color);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .answer-btn:hover:not(:disabled) {
+            background: var(--secondary-color);
+            border-color: var(--accent-color);
+        }
+        .answer-btn.correct { background: var(--success-color); color: var(--primary-color); border-color: var(--success-color); }
+        .answer-btn.wrong { background: var(--error-color); color: var(--text-color); border-color: var(--error-color); }
+        .answer-btn:disabled { cursor: not-allowed; }
+
+        #quiz-feedback { margin-top: 1.5rem; text-align: center; font-size: 1.2rem; font-weight: 600;}
+        #quiz-results { text-align: center; display: none; }
+        #quiz-results h2 { font-size: 2.5rem; }
+        #quiz-results p { font-size: 1.5rem; }
+        #conclusion-text {
+            background: var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--card-padding);
+            margin-top: 2rem;
+            border-left: 5px solid var(--accent-color);
+        }
+
+
+        /* Animações */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(77, 181, 255, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(77, 181, 255, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(77, 181, 255, 0); }
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            header h1 { font-size: 2rem; }
+            #main-nav { gap: 0.5rem; }
+            .nav-btn { padding: 0.6rem 1rem; font-size: 0.9rem; }
+            .answers { grid-template-columns: 1fr; }
+            .flashcard-image { float: none; display:block; margin: 1rem auto; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>A Planta da Vida</h1>
+            <p>Explore a célula e seu incrível manual de instruções.</p>
+        </header>
+
+        <nav id="main-nav">
+            <button class="nav-btn active" data-target="intro">Início</button>
+            <button class="nav-btn" data-target="celula">A Célula</button>
+            <button class="nav-btn" data-target="dna">O DNA</button>
+            <button class="nav-btn" data-target="ciclo-celular">O Ciclo Celular</button>
+            <button class="nav-btn" data-target="quiz">Quiz Final</button>
+        </nav>
+
+        <main id="content-area">
+
+            <section id="intro" class="content-section active">
+                <h2>Bem-vindo, Explorador Celular!</h2>
+                <p>Para entender o que acontece no câncer, primeiro precisamos apreciar a perfeição da vida saudável. A unidade fundamental de tudo é a célula.</p>
+                <p>Imagine-a como uma cidade microscópica, movimentada e autossuficiente. Nesta jornada, você vai explorar os segredos dessa cidade, seu manual de operações e os ritmos que a mantêm viva.</p>
+                <p>Use os botões acima para navegar pelos distritos desta cidade interior. Sua exploração começa agora!</p>
+            </section>
+
+            <section id="celula" class="content-section">
+                <h2>A Cidade Microscópica Interior</h2>
+                <p>Toque nos pontos brilhantes na imagem abaixo para descobrir os componentes vitais da nossa cidade-célula. Cada um tem uma função, e sua cooperação harmoniosa é o que nos mantém vivos.</p>
+                
+                <div id="cell-interactive-container">
+                    <img src="cell_diagram.png" alt="Diagrama de uma célula" id="cell-image">
+                    
+                    <div class="hotspot" id="hotspot-nucleus" data-title="Núcleo: A Câmara Municipal" data-text="O centro de comando. Alberga os planos mestres (DNA) para toda a operação da célula, ditando tudo o que acontece.">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div class="hotspot" id="hotspot-mitochondria" data-title="Mitocôndrias: As Centrais Elétricas" data-text="Fornecem a energia (ATP) necessária para todas as atividades da cidade. Sem elas, a cidade ficaria às escuras.">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div class="hotspot" id="hotspot-ribosomes" data-title="Ribossomas: As Fábricas" data-text="Trabalham incessantemente para construir as máquinas e os trabalhadores da cidade – as proteínas – seguindo as instruções enviadas pelo núcleo.">
+                        <i class="fa-solid fa-industry"></i>
+                    </div>
+                </div>
+                
+                <div id="cell-info-box">
+                    <h3>Clique em um ponto para saber mais...</h3>
+                    <p></p>
+                </div>
+            </section>
+
+            <section id="dna" class="content-section">
+                <h2>O Derradeiro Livro de Receitas</h2>
+                <p>Dentro da "Câmara Municipal" de cada célula reside o manual de instruções mais complexo que existe: o DNA. Clique nos cartões abaixo para expandir e descobrir como essa informação é organizada.</p>
+                
+                <div class="flashcard-deck">
+                    <div class="flashcard">
+                        <div class="flashcard-header">
+                            <h3><i class="fa-solid fa-book-open"></i> DNA: A Biblioteca de Livros</h3>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="flashcard-content">
+                            <img src="dna_helix.png" alt="Dupla hélice de DNA" class="flashcard-image">
+                            <p>O DNA (ácido desoxirribonucleico) pode ser visualizado como uma vasta biblioteca que contém toda a informação para construir e operar a célula. Sua estrutura icônica é uma dupla hélice, como uma escada em caracol, cujos degraus formam o código da vida.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flashcard">
+                        <div class="flashcard-header">
+                            <h3><i class="fa-solid fa-book-bookmark"></i> Cromossomas: Os Livros Individuais</h3>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="flashcard-content">
+                             <img src="chromosomes.png" alt="Cromossomas" class="flashcard-image">
+                            <p>Se o DNA de uma única célula fosse esticado, teria cerca de 2 metros! Para caber no núcleo, o DNA é supercompactado em estruturas chamadas cromossomas. Pense neles como os livros individuais da biblioteca. Humanos possuem 23 pares destes "livros de receitas".</p>
+                        </div>
+                    </div>
+
+                    <div class="flashcard">
+                        <div class="flashcard-header">
+                            <h3><i class="fa-solid fa-scroll"></i> Genes: As Receitas Específicas</h3>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="flashcard-content">
+                             <img src="gene_sequence.png" alt="Sequência de um gene" class="flashcard-image">
+                            <p>Um gene é um segmento específico de DNA, como uma única receita em um livro. Cada gene contém as instruções para construir uma proteína específica, que é uma molécula "trabalhadora" com uma função particular. Nosso genoma tem cerca de 25.000 destas "receitas".</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ciclo-celular" class="content-section">
+                <h2>O Ritmo da Vida e da Morte</h2>
+                <p>A vida de uma célula segue um ritmo preciso de crescimento e divisão: o ciclo celular. É uma peça de teatro regulada, dividida em atos. Avance pelos passos para ver como funciona.</p>
+
+                <div id="cell-cycle-wizard">
+                    <div class="cycle-step active" data-step="1">
+                        <h3>Ato 1: Interfase (Fase G1)</h3>
+                        <img src="cell_g1_phase.png" alt="Célula na fase G1">
+                        <p>É a fase de <strong>Crescimento 1</strong>. A célula aumenta de tamanho, sintetiza proteínas e "vive a sua vida". É como uma fábrica se preparando para uma grande produção.</p>
+                    </div>
+                    <div class="cycle-step" data-step="2">
+                        <h3>Ato 1: Interfase (Fase S)</h3>
+                         <img src="cell_s_phase.png" alt="Célula na fase S de síntese">
+                        <p>A <strong>Fase de Síntese</strong> é o passo mais crítico. A célula duplica toda a sua biblioteca de DNA, fazendo uma cópia exata de cada um dos seus 46 "livros de receitas" (cromossomas).</p>
+                    </div>
+                     <div class="special-event-card" id="checkpoint1-card">
+                        <h4><i class="fa-solid fa-shield-halved"></i> Fiscal de Qualidade (Checkpoint G1/S)</h4>
+                        <p>Antes de copiar o DNA, um fiscal de qualidade verifica se a célula está saudável e pronta. Se um erro é detectado, o ciclo é pausado para reparos. Esta é a primeira linha de defesa contra o câncer!</p>
+                    </div>
+                    <div class="cycle-step" data-step="3">
+                        <h3>Ato 1: Interfase (Fase G2)</h3>
+                        <img src="cell_g2_phase.png" alt="Célula na fase G2">
+                        <p>Na fase de <strong>Crescimento 2</strong>, a célula faz uma verificação final de qualidade, garantindo que o DNA foi copiado corretamente e acumulando energia para o ato final da divisão.</p>
+                    </div>
+                     <div class="special-event-card apoptosis" id="apoptosis-card">
+                        <h4><i class="fa-solid fa-bomb"></i> Apoptose: O Nobre Ato de Autodestruição</h4>
+                        <p>E se o DNA está danificado demais para ser reparado? A célula inicia a apoptose, um "suicídio" celular limpo e ordenado. Ela se desmantela para proteger o corpo, impedindo que erros perigosos se espalhem. É um mecanismo anticancerígeno crucial!</p>
+                    </div>
+                    <div class="cycle-step" data-step="4">
+                        <h3>Ato 2: Mitose (Fase M)</h3>
+                        <img src="cell_mitosis.png" alt="Célula em mitose">
+                        <p>A <strong>Divisão Celular</strong>! É a fase dramática onde uma célula-mãe se divide em duas células-filhas geneticamente idênticas. Os cromossomas duplicados são separados e distribuídos igualmente.</p>
+                    </div>
+
+                    <div class="cycle-controls">
+                        <button id="prev-step-btn" style="display: none;">&lt; Passo Anterior</button>
+                        <button id="next-step-btn">Próximo Passo &gt;</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="quiz" class="content-section">
+                <h2>Teste seu Conhecimento!</h2>
+                <p>Vamos ver o que você aprendeu sobre a incrível máquina que é a célula.</p>
+
+                <div id="quiz-container">
+                    <div class="question active" data-question="0">
+                        <h3>Qual parte da célula funciona como a "central de energia"?</h3>
+                        <div class="answers">
+                            <button class="answer-btn" data-correct="false">Núcleo</button>
+                            <button class="answer-btn" data-correct="true">Mitocôndrias</button>
+                            <button class="answer-btn" data-correct="false">Ribossomas</button>
+                            <button class="answer-btn" data-correct="false">DNA</button>
+                        </div>
+                    </div>
+                     <div class="question" data-question="1">
+                        <h3>Um segmento de DNA com instruções para uma proteína é chamado de...</h3>
+                        <div class="answers">
+                            <button class="answer-btn" data-correct="false">Cromossoma</button>
+                            <button class="answer-btn" data-correct="false">Ciclo Celular</button>
+                            <button class="answer-btn" data-correct="true">Gene</button>
+                            <button class="answer-btn" data-correct="false">Apoptose</button>
+                        </div>
+                    </div>
+                    <div class="question" data-question="2">
+                        <h3>Em que fase do ciclo celular o DNA é duplicado?</h3>
+                        <div class="answers">
+                            <button class="answer-btn" data-correct="false">Fase G1</button>
+                            <button class="answer-btn" data-correct="true">Fase S</button>
+                            <button class="answer-btn" data-correct="false">Fase G2</button>
+                            <button class="answer-btn" data-correct="false">Mitose</button>
+                        </div>
+                    </div>
+                     <div class="question" data-question="3">
+                        <h3>O que é apoptose?</h3>
+                        <div class="answers">
+                            <button class="answer-btn" data-correct="false">A divisão da célula.</button>
+                            <button class="answer-btn" data-correct="false">Um erro na cópia do DNA.</button>
+                            <button class="answer-btn" data-correct="false">A criação de energia.</button>
+                            <button class="answer-btn" data-correct="true">A morte celular programada para proteger o organismo.</button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-feedback"></div>
+                </div>
+                
+                <div id="quiz-results">
+                    <h2>Quiz Completo!</h2>
+                    <p>Sua pontuação: <span id="score">0</span> de 4</p>
+                    <div id="conclusion-text">
+                        <h3>Conclusão: O Câncer como uma Corrupção do Sistema</h3>
+                        <p>A elegância e a complexidade destes sistemas de controlo são precisamente o que o câncer precisa desmantelar para surgir. O câncer não é a criação de um processo biológico novo, mas sim a <strong>corrupção e a perversão</strong> de mecanismos existentes e essenciais.</p>
+                        <p>A multiplicação "desordenada e descontrolada" que define o câncer só pode ocorrer quando as regras do sistema "ordenado e controlado" do ciclo celular são quebradas. A nível molecular, o câncer é o resultado de falhas (mutações) nos genes que regulam o ciclo celular e a apoptose. Ele não é um invasor misterioso, mas o resultado trágico de falhas específicas no nosso próprio manual de instruções.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // JavaScript - Lógica Interativa
+
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Lógica de Navegação Principal ---
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+            const contentArea = document.getElementById('content-area');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.dataset.target;
+
+                    // Atualiza botão ativo
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Mostra a seção correta
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // --- Lógica da Seção 1: Célula Interativa ---
+            const hotspots = document.querySelectorAll('.hotspot');
+            const infoBox = document.getElementById('cell-info-box');
+            const infoBoxTitle = infoBox.querySelector('h3');
+            const infoBoxText = infoBox.querySelector('p');
+
+            hotspots.forEach(hotspot => {
+                hotspot.addEventListener('click', () => {
+                    infoBoxTitle.textContent = hotspot.dataset.title;
+                    infoBoxText.textContent = hotspot.dataset.text;
+                });
+            });
+
+            // --- Lógica da Seção 2: Flashcards de DNA ---
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Fecha outros cartões para uma UI mais limpa (opcional)
+                    flashcards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                           // otherCard.classList.remove('open');
+                        }
+                    });
+                    // Alterna o cartão clicado
+                    card.classList.toggle('open');
+                });
+            });
+
+            // --- Lógica da Seção 3: Ciclo Celular ---
+            const wizard = document.getElementById('cell-cycle-wizard');
+            const steps = wizard.querySelectorAll('.cycle-step');
+            const prevBtn = document.getElementById('prev-step-btn');
+            const nextBtn = document.getElementById('next-step-btn');
+            const checkpointCard = document.getElementById('checkpoint1-card');
+            const apoptosisCard = document.getElementById('apoptosis-card');
+
+            let currentStep = 0;
+
+            function updateWizard() {
+                steps.forEach((step, index) => {
+                    step.classList.toggle('active', index === currentStep);
+                });
+
+                // Lógica de exibição dos botões
+                prevBtn.style.display = currentStep > 0 ? 'inline-block' : 'none';
+                nextBtn.textContent = currentStep === steps.length - 1 ? 'Reiniciar Ciclo' : 'Próximo Passo >';
+                
+                // Lógica dos eventos especiais
+                checkpointCard.style.display = (currentStep === 1) ? 'block' : 'none';
+                apoptosisCard.style.display = (currentStep === 2) ? 'block' : 'none';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                } else {
+                    currentStep = 0; // Reinicia
+                }
+                updateWizard();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateWizard();
+                }
+            });
+            
+            updateWizard(); // Inicializa o wizard
+
+            // --- Lógica da Seção 4: Quiz ---
+            const quizContainer = document.getElementById('quiz-container');
+            const questions = quizContainer.querySelectorAll('.question');
+            const quizResults = document.getElementById('quiz-results');
+            const scoreDisplay = document.getElementById('score');
+            const feedbackDisplay = document.getElementById('quiz-feedback');
+
+            let currentQuestion = 0;
+            let score = 0;
+
+            quizContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('answer-btn')) {
+                    const btn = e.target;
+                    const parentQuestion = btn.closest('.question');
+                    const isCorrect = btn.dataset.correct === 'true';
+
+                    // Desabilitar todos os botões da pergunta atual
+                    parentQuestion.querySelectorAll('.answer-btn').forEach(b => {
+                        b.disabled = true;
+                    });
+
+                    if (isCorrect) {
+                        btn.classList.add('correct');
+                        score++;
+                        feedbackDisplay.textContent = "Correto! Bom trabalho!";
+                        feedbackDisplay.style.color = 'var(--success-color)';
+                    } else {
+                        btn.classList.add('wrong');
+                        // Encontrar e destacar a resposta correta
+                        parentQuestion.querySelector('[data-correct="true"]').classList.add('correct');
+                        feedbackDisplay.textContent = "Ops! Não foi dessa vez.";
+                        feedbackDisplay.style.color = 'var(--error-color)';
+                    }
+
+                    // Avançar para a próxima pergunta ou mostrar resultados
+                    setTimeout(() => {
+                        feedbackDisplay.textContent = "";
+                        questions[currentQuestion].classList.remove('active');
+                        currentQuestion++;
+                        if (currentQuestion < questions.length) {
+                            questions[currentQuestion].classList.add('active');
+                        } else {
+                            // Fim do quiz
+                            quizContainer.style.display = 'none';
+                            scoreDisplay.textContent = score;
+                            quizResults.style.display = 'block';
+                            quizResults.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
